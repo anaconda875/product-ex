@@ -7,6 +7,7 @@ import com.example.productms.dto.response.CategoryResponse;
 import com.example.productms.dto.response.ProductResponse;
 import com.example.productms.entity.Category;
 import com.example.productms.entity.Product;
+import com.example.productms.exception.ResourceNotEnoughException;
 import com.example.productms.repository.CategoryRepository;
 import com.example.productms.repository.ProductRepository;
 import org.springframework.beans.BeanUtils;
@@ -64,7 +65,7 @@ public class DefaultProductService implements ProductService {
   
   @Override
   public Page<ProductResponse> findAll(CustomPageRequest pageRequest) {
-    return productRepository.findAll(pageRequest.getKeyword(), pageRequest).map(p -> {
+    return productRepository.findAll(pageRequest).map(p -> {
       ProductResponse productResponse = new ProductResponse();
       BeanUtils.copyProperties(p, productResponse);
   
@@ -79,5 +80,15 @@ public class DefaultProductService implements ProductService {
   
       return productResponse;
     });
+  }
+  
+  @Override
+  public Product validateAndReturn(Long id, Integer quantity) {
+    Product product = productRepository.findById(id).orElseThrow();
+    if(product.getQuantity() < quantity) {
+      throw new ResourceNotEnoughException(String.format("Product is not enough, currently: %s; requested: %s", product.getQuantity(), quantity));
+    }
+    
+    return product;
   }
 }

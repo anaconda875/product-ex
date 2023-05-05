@@ -1,4 +1,17 @@
 spring:
+  cloud:
+    function:
+      definition: orderListener
+    stream:
+      bindings:
+        orderListener-in-0:
+          destination: ms.order
+          binder: kafka
+        orderErrorResponse-out-0:
+          destination: ms.response.error.order
+          binder: kafka
+
+
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     username: root

@@ -30,6 +30,7 @@ public class ProductController {
   @GetMapping("/{id}")
   public ProductResponse findById(Long id) {
 //    return productService.findById(id);
+    return null;
   }
   
   @PostMapping
@@ -45,6 +46,7 @@ public class ProductController {
   @PutMapping("/{id}")
   public ProductResponse update(@PathVariable Long id, @RequestBody ProductRequest productRequest) {
 //    return productService.update(id, productRequest);
+    return null;
   }
   
 }
