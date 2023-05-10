@@ -19,16 +19,17 @@ spring:
           destination: ms.response.error.order
           binder: kafka
 
-
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     username: root
-    url: jdbc:mariadb://localhost:3310/product?createDatabaseIfNotExist=true
+    url: jdbc:mariadb://localhost:3310/product2?createDatabaseIfNotExist=true
     password: root
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     show-sql: true
+  liquibase:
+    change-log: classpath:/master/changelog-master.xml
 #    database-platform: mariadb
 server:
   port: 8080
